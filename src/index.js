@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Route from "./route";
 import registerServiceWorker from './registerServiceWorker';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -29,7 +30,7 @@ const muiTheme = getMuiTheme({
 console.log("muiTheme: ", muiTheme);
 ReactDOM.render(
 	<MuiThemeProvider>
-		<App />
+		<Route />
 	</MuiThemeProvider>
 , document.getElementById('root'));
 registerServiceWorker();

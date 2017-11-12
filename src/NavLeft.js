@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
-//import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import MenuItem from 'material-ui/MenuItem';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+
+import { Link } from 'react-router-dom';
 
 const styles = {
 	bar: {
@@ -57,16 +59,14 @@ class NavLeft extends Component {
 						onClick={this.handleSelectMenu}
 						onItemTouchTap={this.handleSelectItem}
 					>
-						<MenuItem value={1}><a href="#">Home2</a></MenuItem>
-						<MenuItem value={2} primaryText="Blocks" />
-						<MenuItem value={3} primaryText="Accounts" />
-						<MenuItem value={4} primaryText="Subjects" />
+						<MenuItem value={1} primaryText="Home" containerElement={<Link to="/" />} />
+						<MenuItem value={2} primaryText="Blocks" containerElement={<Link to="/blocks" />} />
+						<MenuItem value={3} primaryText="Accounts" containerElement={<Link to="/blocks" />} />
+						<MenuItem value={4} primaryText="Subjects" containerElement={<Link to="/blocks" />} />
+						<Link to="/blocks" />
 					</IconMenu>
 					<ToolbarSeparator />
 				</ToolbarGroup>
-				{/*<ToolbarGroup>
-					<FlatButton label="settings" containerElement={<a href="#">settings</a>} />
-				</ToolbarGroup> */}
 			</Toolbar>
 		);
 	}
