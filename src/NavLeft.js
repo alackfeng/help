@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
+//import FlatButton from 'material-ui/FlatButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import MenuItem from 'material-ui/MenuItem';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';

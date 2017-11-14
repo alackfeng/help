@@ -1,23 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import {
   BrowserRouter as Router,
   Route,
-  Link
+ // Link,
+  Switch
 } from 'react-router-dom';
 
 
 import App from "./App";
 import Blocks from "./Blocks";
+import BlockContainer from "./BlockContainer";
 
 const route = () => (
 	<Router>
 		<div>
-			<App />
-			<Route exact path="/" />
-			<Route path="/blocks" component={Blocks} />
-			<Route path="/accouts" component={Blocks} />
-			<Route path="/subjects" component={Blocks} />
+			<Route component={App} />
+			<Switch>
+				<Route exact path="/" />
+				<Route path="/blocks" component={Blocks} />
+				<Route path="/accouts" component={Blocks} />
+				<Route path="/subjects" component={Blocks} />
+				<Route path="/block" component={BlockContainer} />
+			</Switch>
 		</div>
 	</Router>
 );
