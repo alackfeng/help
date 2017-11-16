@@ -7,8 +7,12 @@ let connect = true;
 let connectionManager;
 
 const willTransitionTo = (nextState, replaceState, callback) => {
-  let connectionString = 'ws://123.56.18.119:21014';
-  let urls = ['ws://123.56.18.119:21014'];
+
+  //let connectionString = 'ws://123.56.18.119:21014';
+  //let urls = ['ws://123.56.18.119:21014'];
+  let connectionString = 'ws://119.23.40.206:11011';
+  let urls = ['ws://119.23.40.206:11011'];
+  // 25406
 
   console.log('--------- ', nextState, replaceState, typeof callback);
   if (!connectionManager)

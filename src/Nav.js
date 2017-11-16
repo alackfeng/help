@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
 
+import ChainTypes from './ChainTypes';
+import BindToChainState from './BindToChainState';
+
+/*
+const styles = {
+	block: {
+		fontSize: 'large',
+		textAlign: 'center', 
+	}
+};
+*/
 
 class Nav extends Component {
+
+
+	static propTypes = {
+		dynGlobalObject: ChainTypes.ChainObject.isRequired
+	};
+
+	static defaultProps = {
+		dynGlobalObject: '2.1.0'
+	};
 
 	constructor() {
 		super();
@@ -31,12 +51,31 @@ class Nav extends Component {
 		console.log('onRequestSearch', this.state.searchContent);
 	}
 
+	_getBlock() {
+		let dynamicObj = this.props.dynGlobalObject;
+		console.log('============ Nav::_getBlock - ', new Date());
+
+		let block_number = dynamicObj.get
+			? dynamicObj.get('head_block_number')
+		: 0;
+		let block_time = dynamicObj.get
+			? dynamicObj.get('time')
+		: 0;
+
+		block_time = new Date(block_time + "Z").toLocaleString();
+
+		return {block_number, block_time};
+	}
+
 	render() {
+
+		let {block_number, block_time} = this._getBlock();
+
 		return (
 			<div>
-			Welcome Help OS
+			Welcome Help OS, {block_number} Height -: {block_time}
 			</div>
 		);
 	}
 }
-export default Nav;
+export default BindToChainState(Nav, { keep_updating: true });

@@ -11,13 +11,14 @@ import {
 import App from "./App";
 import Blocks from "./Blocks";
 import BlockContainer from "./BlockContainer";
+import MainContainer from "./MainContainer";
 
 const route = () => (
 	<Router>
 		<div>
 			<Route component={App} />
 			<Switch>
-				<Route exact path="/" />
+				<Route exact path="/" component={MainContainer} />
 				<Route path="/blocks" component={Blocks} />
 				<Route path="/accouts" component={Blocks} />
 				<Route path="/subjects" component={Blocks} />

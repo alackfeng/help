@@ -11,6 +11,8 @@ import BindToChainState from './BindToChainState';
 //import LinkToWitnessById from "./LinkToWitnessById";
 //import JSONTree from 'react-json-tree';
 
+import BaseFormat from "./BaseFormat";
+
 const theme = {
   scheme: 'monokai',
   author: 'wimer hazenberg (http://www.monokai.nl)',
@@ -80,8 +82,8 @@ class Block extends BaseComponent {
   shouldComponentUpdate(nextProps) {
     return (
       !Immutable.is(nextProps.blocks, this.props.blocks) ||
-      nextProps.height !== this.props.height ||
-      nextProps.dynGlobalObject !== this.props.dynGlobalObject
+      nextProps.height !== this.props.height// ||
+      //nextProps.dynGlobalObject !== this.props.dynGlobalObject
     );
   }
 
@@ -101,18 +103,18 @@ class Block extends BaseComponent {
   }
 
   _nextBlock() {
-    let height = this.props.params.height;
+    let height = this.props.height;
     let nextBlock = Math.min(
       this.props.dynGlobalObject.get('head_block_number'),
       parseInt(height, 10) + 1
     );
-    this.props.router.push(`/block/${nextBlock}`);
+    //this.props.router.push(`/block/${nextBlock}`);
   }
 
   _previousBlock() {
-    let height = this.props.params.height;
+    let height = this.props.height;
     let previousBlock = Math.max(1, parseInt(height, 10) - 1);
-    this.props.router.push(`/block/${previousBlock}`);
+    //this.props.router.push(`/block/${previousBlock}`);
   }
 
   componentDidMount() {
@@ -126,10 +128,11 @@ class Block extends BaseComponent {
     console.log('------------- Block::render - ', height, block);
 
     return (
-      <div style={{ 'text-align': 'left' }}>
+      <div style={{ textAlign: 'left' }}>
         <h4 className="text-center">BLOCK: #{height}</h4>
         {/*<JSONTree data={block} theme={theme} invertTheme={false} />*/}
-        {JSON.stringify(block)}
+        {/*JSON.stringify(block) */}
+        <div>{block?<BaseFormat base={block} />:"Hello World"}</div>
       </div>
     );
   }

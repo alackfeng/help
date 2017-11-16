@@ -51,7 +51,7 @@ class App extends Component {
         <p className="App-title">
           Search What you want, Anything...
         </p>
-        {this.state.synced ? <Main dynGlobalObject="2.1.0" /> : null}
+        {/*this.state.synced ? <Main dynGlobalObject="2.1.0" /> : null*/}
 
       </div>
     );
