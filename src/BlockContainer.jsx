@@ -5,7 +5,8 @@ import Block from './Block';
 
 class BlockContainer extends Component {
   render() {
-    let height = this.props.location.search.split("=")[1];
+    //let height = this.props.location.search.split("=")[1];
+    let height = this.props.match.params ? this.props.match.params.height : "1";
     height = parseInt(height, 10);
 
     return (

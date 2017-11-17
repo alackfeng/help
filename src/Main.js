@@ -7,6 +7,8 @@ import BindToChainState from './BindToChainState';
 import Immutable from 'immutable';
 
 import Block from "./Block"; 
+import Account from "./Account";
+
 import SearchBar from "./SearchBar";
 import BaseFormat from "./BaseFormat";
 
@@ -55,6 +57,7 @@ class Main extends Component {
 		return (
 			!Immutable.is(this.state.block_sh !== nextState.block_sh)
 			|| this.props.blocks !== nextProps.blocks
+			|| this.props.accounts !== nextProps.accounts
 		);
 	}
 
@@ -73,12 +76,28 @@ class Main extends Component {
 		this.setState({search: true});
 	}
 
+	_searchConent() {
+
+		let content = this.state.searchContent;
+		let type = null;
+
+		if(Number(content)) {
+			type = 'block';
+			content = parseInt(content, 10);
+
+		} else {
+			type = 'account'; //content = content;
+		}
+		
+		return {type, content};
+	}
+
 	render() {
 
 		// block height
-		let {blocks} = this.props;
+		let {blocks, accounts} = this.props;
 		let {search} = this.state;
-	    let height = parseInt(this.state.searchContent, 10);
+	    let {type, content} = this._searchConent();
 
 		return (
 			<div>
@@ -90,7 +109,8 @@ class Main extends Component {
 					style={styles.search}
 				/>
 				{/*<div style={styles.main}>{dynamicObj?<BaseFormat base={dynamicObj} />:"Hello World"}</div>*/}
-				{ (search && height >= 0) ? <Block blocks={blocks} height={height} /> : null}
+				{ (type === 'block' && search && content >= 0) ? <Block blocks={blocks} height={content} /> : null}
+				{ (type === 'account' && search && content) ? <Account accounts={accounts} name={content} /> : null}
 			</div>
 		);
 	}

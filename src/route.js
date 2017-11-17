@@ -11,6 +11,7 @@ import {
 import App from "./App";
 import Blocks from "./Blocks";
 import BlockContainer from "./BlockContainer";
+import AccountContainer from "./AccountContainer";
 import MainContainer from "./MainContainer";
 
 const route = () => (
@@ -20,9 +21,10 @@ const route = () => (
 			<Switch>
 				<Route exact path="/" component={MainContainer} />
 				<Route path="/blocks" component={Blocks} />
-				<Route path="/accouts" component={Blocks} />
+				<Route path="/accounts" component={Blocks} />
 				<Route path="/subjects" component={Blocks} />
-				<Route path="/block" component={BlockContainer} />
+				<Route path="/account/:name" component={AccountContainer} />
+				<Route path="/block/:height" component={BlockContainer} />
 			</Switch>
 		</div>
 	</Router>

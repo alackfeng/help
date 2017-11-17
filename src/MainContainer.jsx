@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AccountStore from "./AccountStore";
 import BlockchainStore from './BlockchainStore';
 import AltContainer from 'alt-container';
 import Main from "./Main";
@@ -8,14 +9,17 @@ class MainContainer extends Component {
 
     return (
       <AltContainer
-        stores={[BlockchainStore]}
+        stores={[BlockchainStore, AccountStore]}
         inject={{
           blocks: () => {
             return BlockchainStore.getState().blocks;
+          },
+          accounts: () => {
+            return AccountStore.getState().accounts;
           }
         }}
       >
-        <Main />
+        <Main {...this.props} />
       </AltContainer>
     );
   }
