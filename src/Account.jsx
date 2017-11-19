@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import BaseComponent from './BaseComponent';
 import Immutable from 'immutable';
 
-import BindToChainState from './BindToChainState';
 import AccountActions from './AccountActions';
+import BindToChainState from './BindToChainState';
 
-import BaseComponent from './BaseComponent';
 import BaseFormat from "./BaseFormat";
 
 //import JSONTree from 'react-json-tree';
@@ -31,58 +31,68 @@ const theme = {
   base0F: '#cc6633'
 }; */
 
-class Account extends BaseComponent {
+
+class Account extends Component {
   static propTypes = {
     accounts: PropTypes.object.isRequired,
-    name: PropTypes.string
+    name: PropTypes.string,
+    synced: PropTypes.bool
   };
 
   static defaultProps = {
     accounts: {},
-    name: null
+    name: null,
+    synced: false
   };
 
   constructor(props) {
     super(props);
+    console.log('------------- Account::constructor - ', props.name);
+
   }
 
   shouldComponentUpdate(nextProps) {
+    console.log('------------- Account::shouldComponentUpdate - ', nextProps.name);
     return (
-      !Immutable.is(nextProps.accounts, this.props.accounts) ||
-      nextProps.name !== this.props.name || true
+      !Immutable.is(nextProps.accounts, this.props.accounts) 
+      || nextProps.name !== this.props.name
+      || nextProps.synced !== this.props.synced
     );
   }
 
-  _getAccount(name) {
+  _getAccount(name, force) {
     if (name) {
-      if (!this.props.accounts.get(name)) {
+      if (force || (this.props.synced && !this.props.accounts.get(name))) {
         AccountActions.getAccount(name);
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.name !== this.props.name) {
-      this._getAccount(nextProps.name);
+    console.log('------------- Account::componentWillReceiveProps - ', 
+      nextProps.name, this.props.name, nextProps.synced, this.props.synced);
+    if (nextProps.synced || nextProps.name !== this.props.name) {
+      this._getAccount(nextProps.name, true);
     }
   }
 
   componentDidMount() {
+    console.log('------------- Account::componentDidMount - ', this.props.name);
     this._getAccount(this.props.name);
   }
 
   render() {
-    let { accounts } = this.props;
+    let { accounts, synced } = this.props;
     let name = this.props.name;
     let account = accounts.get(name);
-    console.log('------------- Account::render - account - ', name, account);
+    console.log('------------- Account::render - account - ', name, account, synced);
 
     if (!account) {
       //AccountActions.getAccount(name);
       return <div>No Account</div>;
     }
     return (
-      <div style={{ 'text-align': 'left' }}>
+      <div style={{ 'textAlign': 'left' }}>
         {/*Account : <JSONTree
           data={account}
           theme={theme}

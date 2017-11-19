@@ -53,7 +53,7 @@ class Main extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-
+		console.log('============ Main::shouldComponentUpdate : call ');
 		return (
 			!Immutable.is(this.state.block_sh !== nextState.block_sh)
 			|| this.props.blocks !== nextProps.blocks
@@ -98,7 +98,7 @@ class Main extends Component {
 		let {blocks, accounts} = this.props;
 		let {search} = this.state;
 	    let {type, content} = this._searchConent();
-
+	    console.log('============ Main::render : call ');
 		return (
 			<div>
 				

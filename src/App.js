@@ -7,6 +7,7 @@ import './App.css';
 import willTransitionTo from './routerTransition';
 import Header from "./Header";
 import Main from "./Main";
+import HelpActions from "./HelpActions";
 
 let _This = null;
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
 
     if(result === 'synced') {
       _This.setState({synced: true});
+      HelpActions.setSync(true);
     } 
   };
 
@@ -41,6 +43,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('============ App::render : call ');
     return (
       <div className="App">
         {/*<header className="App-header">

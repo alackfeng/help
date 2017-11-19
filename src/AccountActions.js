@@ -2,14 +2,12 @@ import alt from "./alt-instance";
 import { Apis } from 'fidchainjs-ws';
 import { ChainStore } from 'fidchainjs/es';
 
-let latestBlocks = {};
-
 class AccountActions {
 
   getAccount(name_or_id) {
     console.log('=========AccountActions::getAccount - name - ', name_or_id);
     return dispatch => {
-      //console.log('=========AccountActions::getAccount - account - ', ChainStore.getAccount(name_or_id));
+      console.log('=========AccountActions::getAccount - account - ', ChainStore.getAccount(name_or_id));
 
       Apis.instance()
         .db_api()

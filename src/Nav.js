@@ -78,4 +78,4 @@ class Nav extends Component {
 		);
 	}
 }
-export default BindToChainState(Nav, { keep_updating: true });
+export default BindToChainState(Nav, { keep_updating: true , show_loader: true});

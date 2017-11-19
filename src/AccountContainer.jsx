@@ -1,18 +1,23 @@
 import React from 'react';
-import AccountStore from './AccountStore';
 import AltContainer from 'alt-container';
+import AccountStore from "./AccountStore";
+import HelpStore from "./HelpStore";
 import Account from './Account';
+
 
 class AccountContainer extends React.Component {
   render() {
     let name = this.props.match.params ? this.props.match.params.name : "";
-
+    console.log('------------- AccountContainer::AccountContainer - ', name);
     return (
       <AltContainer
-        stores={[AccountStore]}
+        stores={[AccountStore, HelpStore]}
         inject={{
           accounts: () => {
             return AccountStore.getState().accounts;
+          },
+          synced: () => {
+            return HelpStore.getState().beSynced;
           }
         }}
       >
