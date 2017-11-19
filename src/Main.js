@@ -8,6 +8,7 @@ import Immutable from 'immutable';
 
 import Block from "./Block"; 
 import Account from "./Account";
+import AccountActions from "./AccountActions";
 
 import SearchBar from "./SearchBar";
 import BaseFormat from "./BaseFormat";
@@ -33,18 +34,19 @@ const styles = {
 
 class Main extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
-		this.state = this._getInitState();
+		this.state = this._getInitState(props);
 
 		this.onChangeSearch 	= this.onChangeSearch.bind(this);
 		this.onRequestSearch	= this.onRequestSearch.bind(this);
 	}
 
-	_getInitState() {
+	_getInitState(props) {
+		console.log("----------------Main::_getInitState - search ", props.searchAccounts);
 		let state = {
-			dataSource: ["helloworld","how are you", "fine", "feng", "block", "transaction", "123"],
+			dataSource: [props.searchAccounts, "helloworld","how are you", "fine", "feng", "block", "transaction", "123"],
 			searchContent: null,
 			disabled: false,
 			search: false
@@ -68,6 +70,17 @@ class Main extends Component {
 	onChangeSearch(value) {
 		console.log('onChangeSearch', value);
 		//this.setState({dataSource: [ value, value+value, value+value+value]})
+
+		if(!this.props.searchAccounts.get(value)) {
+			AccountActions.accountSearch(value);
+
+			let account = this.props.searchAccounts.findEntry((name) => {
+	            return name === value;
+	        });
+
+	        console.log("----------------Main::onChangeSearch - search ", account);
+		}
+
 		this.setState({searchContent: value, search: false});
 	}
 
@@ -95,10 +108,10 @@ class Main extends Component {
 	render() {
 
 		// block height
-		let {blocks, accounts} = this.props;
+		let {blocks, accounts, searchAccounts} = this.props;
 		let {search} = this.state;
 	    let {type, content} = this._searchConent();
-	    console.log('============ Main::render : call ');
+	    console.log('============ Main::render : call ', searchAccounts.toJS());
 		return (
 			<div>
 				
@@ -110,7 +123,7 @@ class Main extends Component {
 				/>
 				{/*<div style={styles.main}>{dynamicObj?<BaseFormat base={dynamicObj} />:"Hello World"}</div>*/}
 				{ (type === 'block' && search && content >= 0) ? <Block blocks={blocks} height={content} /> : null}
-				{ (type === 'account' && search && content) ? <Account accounts={accounts} name={content} /> : null}
+				{ (type === 'account' && search && content) ? <Account synced={true} accounts={accounts} name={content} /> : null}
 			</div>
 		);
 	}

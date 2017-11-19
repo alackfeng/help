@@ -16,6 +16,9 @@ class MainContainer extends Component {
           },
           accounts: () => {
             return AccountStore.getState().accounts;
+          },
+          searchAccounts: () => {
+            return AccountStore.getState().searchAccounts;
           }
         }}
       >
