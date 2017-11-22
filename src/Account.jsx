@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import BaseComponent from './BaseComponent';
 import Immutable from 'immutable';
+import ChainTypes from './ChainTypes';
 
 import AccountActions from './AccountActions';
 import BindToChainState from './BindToChainState';
@@ -34,13 +35,13 @@ const theme = {
 
 class Account extends Component {
   static propTypes = {
-    accounts: PropTypes.object.isRequired,
     name: PropTypes.string,
-    synced: PropTypes.bool
+    synced: PropTypes.bool,
+    account: ChainTypes.ChainAccount.isRequired,
   };
 
   static defaultProps = {
-    accounts: {},
+    account: null,
     name: null,
     synced: false
   };
@@ -54,7 +55,7 @@ class Account extends Component {
   shouldComponentUpdate(nextProps) {
     console.log('------------- Account::shouldComponentUpdate - ', nextProps.name);
     return (
-      !Immutable.is(nextProps.accounts, this.props.accounts) 
+      nextProps.account != this.props.account
       || nextProps.name !== this.props.name
       || nextProps.synced !== this.props.synced
     );
@@ -62,7 +63,7 @@ class Account extends Component {
 
   _getAccount(name, force) {
     if (name) {
-      if (force || (this.props.synced && !this.props.accounts.get(name))) {
+      if (force || (this.props.synced && this.props.account.get("id") !== name)) {
         AccountActions.getAccount(name);
       }
     }
@@ -82,13 +83,17 @@ class Account extends Component {
   }
 
   render() {
-    let { accounts, synced } = this.props;
-    let name = this.props.name;
-    let account = accounts.get(name);
-    console.log('------------- Account::render - account - ', name, account, synced);
+    let { synced, account } = this.props;
+    
+    if(account) {
+      let name = this.props.account.get("id");
+      console.log('------------- Account::render - account - ', name, JSON.stringify(account), synced);
+    } else {
+      console.log('------------- Account::render - account - ', synced);
+    }
+    
 
     if (!account) {
-      //AccountActions.getAccount(name);
       return <div>No Account</div>;
     }
     return (
@@ -105,4 +110,13 @@ class Account extends Component {
   }
 }
 
-export default BindToChainState(Account, { keep_updating: true });
+Account= BindToChainState(Account, { keep_updating: true });
+
+class AccountWrapper extends Component {
+  render() {
+    return (
+      <div>{this.props.synced ? <Account {...this.props} /> : null }</div>
+    );
+  }
+}
+export default AccountWrapper;

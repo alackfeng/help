@@ -5,7 +5,9 @@ import ChainTypes from './ChainTypes';
 import BindToChainState from './BindToChainState';
 
 import Immutable from 'immutable';
+import utils from "./utils";
 
+import Chain from "./Chain";
 import Block from "./Block"; 
 import Account from "./Account";
 import AccountActions from "./AccountActions";
@@ -94,10 +96,11 @@ class Main extends Component {
 		let content = this.state.searchContent;
 		let type = null;
 
-		if(Number(content)) {
+		if(utils.is_object_id(content)) {
+			type = 'object';
+		} else if(Number(content)) {
 			type = 'block';
 			content = parseInt(content, 10);
-
 		} else {
 			type = 'account'; //content = content;
 		}
@@ -123,7 +126,8 @@ class Main extends Component {
 				/>
 				{/*<div style={styles.main}>{dynamicObj?<BaseFormat base={dynamicObj} />:"Hello World"}</div>*/}
 				{ (type === 'block' && search && content >= 0) ? <Block blocks={blocks} height={content} /> : null}
-				{ (type === 'account' && search && content) ? <Account synced={true} accounts={accounts} name={content} /> : null}
+				{ (type === 'account' && search && content) ? <Account synced={true} account={content} /> : null}
+				{ (type === 'object' && search && content) ? <Chain synced={true} object={content} /> : null}
 			</div>
 		);
 	}

@@ -21,7 +21,7 @@ class AccountContainer extends React.Component {
           }
         }}
       >
-        <Account {...this.props} name={name} />
+        <Account {...this.props} account={name} />
       </AltContainer>
     );
   }

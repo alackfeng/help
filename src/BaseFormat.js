@@ -23,35 +23,66 @@ const styles = {
 		overflow: 'hidder', //'inherit',
 		margin: '20px auto 0',
 		marginRight: '30px',
-		float: 'left'
-		//display: 'inline-flex'
+		float: 'left',
+		display: 'none', //display: 'inline-flex'
 	},
 	propToggleHeader: {
 		margin: '20px auto 10px',
 	},
 };
 
+let format_parse_seq = (base) => {
+	console.log("---------------BaseFormat::format_parse_seq - type - base ", (typeof base), JSON.stringify(base));
+	if(typeof base === 'object') {
+		console.log("---------------BaseFormat::format_parse_seq - type - base ", Immutable.Map.isMap(base), Immutable.Set.isSet(base), Immutable.List.isList(base));
+		let base_ = null;
+		if(Immutable.Map.isMap(base) || Immutable.List.isList(base) || Immutable.Set.isSet(base)) {
+			base_ = base;
+		} else {
+			base = Object.assign({}, base);
+			base_ = Immutable.fromJS(base);
+		}
+		
+		console.log("---------------BaseFormat::format_parse_seq - base_ size - ", base_.size);
+		return Immutable.Seq(base_);
+	}
+	else {
+		console.error("---------------BaseFormat::format_parse_seq - base ", (typeof base), base);
+		let base_ = base;
+		return Immutable.Seq(base_);
+	}
+};
 
 
 class KeyValue extends Component {
+
+	shouldComponentUpdate(nextProps) {
+		console.log('------------- KeyValue::shouldComponentUpdate - ', nextProps.parent);
+		return (
+		nextProps.parent !== this.props.parent
+		|| nextProps.child !== this.props.child
+		);
+	}
 	render() {
 		let {base_key, parent, child} = this.props;
-		console.log("----------KeyValue::child - child - ", base_key, parent, child);
+		console.log("----------KeyValue::child - child - ", (typeof child), base_key, parent, child);
 
-		let json_key_value = Immutable.Seq(child.get(0)).entrySeq().map((obj, key) => {
+		let res = format_parse_seq(child);
+
+		let json_key_value = res.slice(0, 10).entrySeq().map((obj, key) => {
 		 	console.log("----------KeyValue::child - ", key, obj[0], obj[1]);
 
 			return (
 				<TableRow key={parent + key}>
-					<TableRowColumn>{key}</TableRowColumn>
 					<TableRowColumn>{obj[0]}</TableRowColumn>
 					<TableRowColumn>{JSON.stringify(obj[1])}</TableRowColumn>
+					<TableRowColumn>{key}</TableRowColumn>
 				</TableRow>
 			);
 		});
 
 		return (
-			<div><Table><TableBody>{json_key_value}</TableBody></Table></div>
+			<div><Table style={{width: 'auto'}}><TableBody>{json_key_value}</TableBody></Table></div>
 		);
 	}
 }
@@ -74,6 +105,13 @@ class BaseFormat extends Component {
 		};
 	}
 
+	shouldComponentUpdate(nextProps) {
+		console.log('------------- BaseFormat::shouldComponentUpdate - ', nextProps.base);
+		return (
+		nextProps.base !== this.props.base
+		);
+	}
+
 	handleToggle = (event, toggled) => {
 		console.log("----------BaseFormat::handleToggle - ", event.target.name, toggled);
 		this.setState({
@@ -92,41 +130,43 @@ class BaseFormat extends Component {
 	/*
 		block object
 	*/
-	_parse(base) {
-		if(typeof base === 'object') {
-			let block = Object.assign({}, base);
-			let block_map = Immutable.fromJS(block);
-			console.log("---------------BaseFormat::_parse - block ", block_map);
-			return Immutable.Seq(block_map);
-		}
-	}
 
 	render() {
 
 		let {base} = this.props;
 		console.log("---------------BaseFormat::Render - type ",typeof base);
-		let res = this._parse(base);
+		let res = format_parse_seq(base);
 
 		let json_key_value = res.entrySeq().map((obj, key) => {
-			console.log("----------BaseFormat::base - ", obj[0], obj[1], key);
+			console.log("----------BaseFormat::base - ", (typeof obj[1]), obj[0], obj[1], key);
 
-			if(obj[0] === 'transactions') {
+			let objType = (typeof obj[1]);
+			if(objType === 'object') { //obj[0] ==='active' || obj[0] ==='history' || obj[0] === 'vesting_balances') {
 				return (
 				<TableRow key={key}>
 					<TableRowColumn>{key}</TableRowColumn>
 					<TableRowColumn>{obj[0]}</TableRowColumn>
 					<TableRowColumn><KeyValue key={key} base_key={key} parent={obj[0]} child={obj[1]} /></TableRowColumn>
 				</TableRow>
-					
 				);
-			}
-			return (
+			} else if(objType === 'string' || objType === 'number') {
+				return (
 				<TableRow key={key}>
 					<TableRowColumn>{key}</TableRowColumn>
 					<TableRowColumn>{obj[0]}</TableRowColumn>
 					<TableRowColumn>{JSON.stringify(obj[1])}</TableRowColumn>
 				</TableRow>
-			);
+				);
+			} else {
+				return (
+				<TableRow key={key}>
+					<TableRowColumn>{key}</TableRowColumn>
+					<TableRowColumn>{obj[0]}</TableRowColumn>
+					<TableRowColumn>{JSON.stringify(obj[1])}</TableRowColumn>
+				</TableRow>
+				);
+			}
+			
 		});
 
 		return (

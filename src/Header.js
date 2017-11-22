@@ -7,7 +7,7 @@ import AppBar from 'material-ui/AppBar';
 //import Toggle from 'material-ui/Toggle';
 
 
-import Login, { Logged } from "./Login";
+import Logged, { Setting } from "./Setting";
 import Nav from "./Nav";
 import NavLeft from "./NavLeft";
 
@@ -20,7 +20,7 @@ import NavLeft from "./NavLeft";
 class Header extends Component {
 
 	state = {
-		logged: true,
+		logged: false,
 	}
 
 	handleChange = (event, logged) => {
@@ -33,7 +33,7 @@ class Header extends Component {
 			<AppBar 
 				title={<Nav />}
 				iconElementLeft={<NavLeft />}
-				iconElementRight={this.state.logged ? <Logged /> : <Login />}
+				iconElementRight={this.state.logged ? <Logged /> : <Setting />}
 			/>
 		</div>
 		);
