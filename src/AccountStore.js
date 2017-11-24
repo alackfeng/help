@@ -13,15 +13,12 @@ class AccountStore {
       onAccountSearch: AccountActions.accountSearch,
       onGetFullAccount: AccountActions.getFullAccount,
       onGetAccount: AccountActions.getAccount,
-      onUpdateRpcConnectionStatus: AccountActions.updateRpcConnectionStatus
     });
   }
 
   _getInitialState() {
     return {
       accounts: Immutable.Map(),
-      rpc_connection_status: null,
-      no_ws_connection: false,
       searchAccounts: Immutable.Map(),
       searchTerm: ""
     };
@@ -53,15 +50,6 @@ class AccountStore {
     }
   }
 
-  onUpdateRpcConnectionStatus(status) {
-    let prev_status = this.state.rpc_connection_status;
-    if (status === 'reconnect') ChainStore.resetCache();
-    else this.state.rpc_connection_status = status;
-    if (prev_status === null && status === 'error')
-      this.state.no_ws_connection = true;
-    if (this.state.no_ws_connection && status === 'open')
-      this.state.no_ws_connection = false;
-  }
 }
 
 export default alt.createStore(AccountStore, 'AccountStore');

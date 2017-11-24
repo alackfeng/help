@@ -84,15 +84,7 @@ class AccountActions {
         });*/
     };
   }
-
-  updateRpcConnectionStatus(status) {
-    return status;
-  }
 }
 
 const AccountActionsInstance = alt.createActions(AccountActions);
-Apis.setRpcConnectionStatusCallback(
-  AccountActionsInstance.updateRpcConnectionStatus
-);
-
 export default AccountActionsInstance;

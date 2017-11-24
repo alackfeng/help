@@ -9,6 +9,11 @@ class HelpActions {
     return sync;
   }
 
+  change(item) {
+  	console.log('=========HelpActions::change - item - ', item);
+  	return item;
+  }
+
 }
 
 export default HelpActions = alt.createActions(HelpActions);

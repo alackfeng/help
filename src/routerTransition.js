@@ -1,21 +1,24 @@
 import { Manager } from 'fidchainjs-ws';
 import { ChainStore } from 'fidchainjs/es';
+import HelpStore from "./HelpStore";
+
 
 ChainStore.setDispatchFrequency(15);
 
 let connect = true;
 let connectionManager;
 
-const willTransitionTo = (nextState, replaceState, callback) => {
+const willTransitionTo = (nextState, replaceState, callback, nodes) => {
 
-  //let connectionString = 'ws://123.56.18.119:21014';
-  //let urls = ['ws://123.56.18.119:21014'];
-  let connectionString = 'ws://119.23.40.206:11011';
-  let urls = ['ws://119.23.40.206:11011'];
+  nodes = nodes ? nodes : HelpStore.getState().settings;
+  let connectionString = nodes.DEFAULT_WS_NODE || 'ws://123.56.18.119:21014';
+  let urls = [connectionString]; //nodes.WS_NODE_LIST.map((obj) => { return obj.url}) || ['ws://123.56.18.119:21014'];
+  //let connectionString = 'ws://119.23.40.206:11011';
+  //let urls = ['ws://119.23.40.206:11011'];
   // 25406
 
-  console.log('--------- ', nextState, replaceState, typeof callback);
-  if (!connectionManager)
+  console.log('--------- ', connectionString, typeof callback);
+  //if (!connectionManager)
     connectionManager = new Manager({ url: connectionString, urls });
 
   let connectionCheckPromise = connectionManager.checkConnections();

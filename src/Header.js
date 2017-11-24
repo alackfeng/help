@@ -7,7 +7,7 @@ import AppBar from 'material-ui/AppBar';
 //import Toggle from 'material-ui/Toggle';
 
 
-import Logged, { Setting } from "./Setting";
+import Setting from "./Setting";
 import Nav from "./Nav";
 import NavLeft from "./NavLeft";
 
@@ -33,7 +33,7 @@ class Header extends Component {
 			<AppBar 
 				title={<Nav />}
 				iconElementLeft={<NavLeft />}
-				iconElementRight={this.state.logged ? <Logged /> : <Setting />}
+				iconElementRight={this.state.logged ? <Setting /> : <Setting />}
 			/>
 		</div>
 		);
