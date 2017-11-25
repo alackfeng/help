@@ -18,6 +18,14 @@ import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 
 const styles = {
+	main: {
+		top: '0px',
+		right: '0px',
+		bottom: '0px',
+		left: '0px',
+		margin: 'auto',
+		width: '1200px'
+	},
 	propContainer: {
 		width: 200,
 		overflow: 'hidder', //'inherit',
@@ -82,7 +90,7 @@ class KeyValue extends Component {
 		});
 
 		return (
-			<div><Table style={{width: 'auto'}}><TableBody>{json_key_value}</TableBody></Table></div>
+			<div><Table style={{width: 'auto'}}><TableBody displayRowCheckbox={true}>{json_key_value}</TableBody></Table></div>
 		);
 	}
 }
@@ -100,8 +108,8 @@ class BaseFormat extends Component {
 			multiSelectable: false,
 			enableSelectAll: false,
 			deselectOnClickaway: true,
-			showCheckboxes: true,
-			height: '500px', // inherit
+			showCheckboxes: false,
+			height: 'inherit' //'500px', // inherit
 		};
 	}
 
@@ -170,7 +178,7 @@ class BaseFormat extends Component {
 		});
 
 		return (
-		<div>
+		<div style={styles.main}>
 			<div style={styles.propContainer}>
 				<h3>Table Properties</h3>
 				<TextField

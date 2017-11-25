@@ -14,7 +14,6 @@ const styles = {
 };
 */
 
-console.error(IntlFormat);
 
 class Nav extends Component {
 

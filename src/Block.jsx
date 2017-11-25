@@ -128,7 +128,7 @@ class Block extends BaseComponent {
     console.log('------------- Block::render - ', height, block);
 
     return (
-      <div style={{ textAlign: 'left' }}>
+      <div style={{ textAlign: 'center' }}>
         <h4 className="text-center">BLOCK: #{height}</h4>
         {/*<JSONTree data={block} theme={theme} invertTheme={false} />*/}
         {/*JSON.stringify(block) */}

@@ -116,18 +116,20 @@ class Main extends Component {
 	    let {type, content} = this._searchConent();
 	    console.log('============ Main::render : call ', searchAccounts.toJS());
 		return (
-			<div>
+			<div style={{ textAlign: 'center' }}>
 				
-				<SearchBar 
+				<h4 className="text-center">BLOCK #Info</h4>
+				{/*<SearchBar 
 					dataSource={this.state.dataSource}
 					onChange={this.onChangeSearch}
 					onRequestSearch={this.onRequestSearch}
 					style={styles.search}
-				/>
+				/>*/}
 				{/*<div style={styles.main}>{dynamicObj?<BaseFormat base={dynamicObj} />:"Hello World"}</div>*/}
 				{ (type === 'block' && search && content >= 0) ? <Block blocks={blocks} height={content} /> : null}
 				{ (type === 'account' && search && content) ? <Account synced={true} account={content} /> : null}
 				{ (type === 'object' && search && content) ? <Chain synced={true} object={content} /> : null}
+				<Chain synced={true} object={"2.1.0"} />
 			</div>
 		);
 	}

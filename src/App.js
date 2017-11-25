@@ -51,9 +51,9 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>*/}
         <Header />
-        <p className="App-title">
+        {/*<p className="App-title">
           Search What you want, Anything...
-        </p>
+        </p>*/}
         {/*this.state.synced ? <Main dynGlobalObject="2.1.0" /> : null*/}
 
       </div>

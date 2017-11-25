@@ -84,9 +84,10 @@ class Account extends Component {
 
   render() {
     let { synced, account } = this.props;
-    
+    let name, id = null;
     if(account) {
-      let name = this.props.account.get("id");
+      id = account.get("id");
+      name = account.get("name");
       console.log('------------- Account::render - account - ', name, JSON.stringify(account), synced);
     } else {
       console.log('------------- Account::render - account - ', synced);
@@ -97,12 +98,13 @@ class Account extends Component {
       return <div>No Account</div>;
     }
     return (
-      <div style={{ 'textAlign': 'left' }}>
+      <div style={{ 'textAlign': 'center' }}>
         {/*Account : <JSONTree
           data={account}
           theme={theme}
           invertTheme={false}
         />{' '} */}
+       <h4 className="text-center">ACCOUNT #{id}/{name}</h4>
        <div>{account?<BaseFormat base={account} />:"Hello World"}</div>
 
       </div>

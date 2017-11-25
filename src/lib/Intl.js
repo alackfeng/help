@@ -28,6 +28,5 @@ class Intl {
 
 let IntlMessage = new Intl;
 
-console.log("-----------------------", IntlMessage.get());
 
 export default IntlMessage;

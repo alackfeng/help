@@ -4,12 +4,14 @@ import BlockchainStore from './BlockchainStore';
 import HelpStore from "./HelpStore";
 import HelpActions from "./HelpActions";
 import willTransitionTo from './routerTransition';
+import AccountActions from "./AccountActions";
+import AccountStore from "./AccountStore";
 
 
 import {Apis} from "fidchainjs-ws";
 import utils from "./utils";
 
-import { hashHistory, BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -20,7 +22,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 //import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import SearchBar from "./SearchBar";
 
-import AccountActions from "./AccountActions";
+
 
 
 const styles = {
@@ -51,8 +53,8 @@ Logged.muiName = 'FlatButton';
 class Setting extends Component {
 	static muiName = 'IconMenu';
 
-	static contextTypes: {
-		router: React.PropTypes.object.isRequired
+	static propTypes: {
+		history: React.PropTypes.object.isRequired
 	}
 
 	constructor(props) {
@@ -119,7 +121,7 @@ class Setting extends Component {
 	            return name === value;
 	        });
 
-	        console.log("----------------Main::onChangeSearch - search ", account);
+	        console.log("----------------Setting::onChangeSearch - search ", account);
 		}
 
 		this.setState({searchContent: value, search: false});
@@ -129,7 +131,7 @@ class Setting extends Component {
 		console.log('onRequestSearch', this.state.searchContent);
 
 		let {type, content} = this._searchConent();
-		//this.context.router.push(`${type}/${content}`);
+		this.props.history.push(`/${type}/${content}`);
 
 		this.setState({search: true});
 	}
@@ -192,6 +194,7 @@ class Setting extends Component {
 	}
 }
 
+Setting = withRouter(Setting);
 
 //export { Logged as default, Setting };
 
@@ -210,6 +213,9 @@ class SettingContainer extends Component {
           },
           settings: () => {
           	return HelpStore.getState().settings;
+          },
+          searchAccounts: () => {
+            return AccountStore.getState().searchAccounts;
           }
         }}
       >
