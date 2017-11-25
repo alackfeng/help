@@ -2,6 +2,11 @@ import Immutable from 'immutable';
 import alt from './alt-instance';
 import HelpActions from './HelpActions';
 
+import ls from "./lib/localStorage";
+const STORAGE_KEY = "__afthelp__";
+const ss = new ls(STORAGE_KEY);
+
+
 const settingsAPIs = {
     DEFAULT_WS_NODE: "ws://39.108.154.111:11011",
     WS_NODE_LIST: [
@@ -17,18 +22,39 @@ class HelpStore {
 
     this.beSynced = false;
     this.status = false;
-    this.settings = settingsAPIs;
+    this.settings = {
+        currentNode: ss.get("settings.currentNode", settingsAPIs.DEFAULT_WS_NODE),
+        listNode: settingsAPIs.WS_NODE_LIST,
+    };
 
     this.bindListeners({
       onSetSync: HelpActions.setSync,
       onChange: HelpActions.change,
+      onNode: HelpActions.node,
     });
+
+    this.exportPublicMethods({
+        getSettings: this.getSettings
+    });
+  }
+
+  getSettings() {
+    let settings = {
+        currentNode: ss.get("settings.currentNode", settingsAPIs.DEFAULT_WS_NODE),
+        listNode: settingsAPIs.WS_NODE_LIST,
+    }
+    return settings;
   }
 
   onSetSync(sync) {
     this.beSynced = sync;
   }
 
+  onNode(node) {
+    // 
+    ss.set("settings.currentNode", node.currentNode);
+    this.setState(node);
+  }
   onChange(change) {
   	if(typeof change !== 'object')
   		return;

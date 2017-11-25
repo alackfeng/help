@@ -7,7 +7,9 @@ import willTransitionTo from './routerTransition';
 
 
 import {Apis} from "fidchainjs-ws";
+import utils from "./utils";
 
+import { hashHistory, BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -16,8 +18,29 @@ import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 //import NavigationClose from 'material-ui/svg-icons/navigation/close';
 //import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import SearchBar from "./SearchBar";
+
+import AccountActions from "./AccountActions";
 
 
+const styles = {
+	title: {
+		cursor: 'pointer',
+	},
+	search: {
+		margin: '0 auto',
+		maxWidth: 300,
+		float: 'left',
+		outline: 'none',
+  		background: 'transparent',
+	},
+	main: {
+		textAlign: 'center', 
+		margin: 30,
+		top: 100,
+	},
+	
+};
 /*
 const Logged = (props) => (
 	<FlatButton {...this.props} label="AFT-setting"></FlatButton>
@@ -28,6 +51,10 @@ Logged.muiName = 'FlatButton';
 class Setting extends Component {
 	static muiName = 'IconMenu';
 
+	static contextTypes: {
+		router: React.PropTypes.object.isRequired
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -36,30 +63,37 @@ class Setting extends Component {
 		let settings = props.settings;
 
 		this.state = {
-			valueNode: settings.DEFAULT_WS_NODE,
-			listNode: settings.WS_NODE_LIST,
+			valueNode: settings.currentNode,
+			listNode: settings.listNode,
 			reset: false,
+			dataSource: [props.searchAccounts, "helloworld","how are you", "fine", "feng", "block", "transaction", "123"],
+			searchContent: null,
+			search: false
 		}
+
+		this.onChangeSearch 	= this.onChangeSearch.bind(this);
+		this.onRequestSearch	= this.onRequestSearch.bind(this);
+
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log("Setting::shouldComponentUpdate - ", nextProps, nextState);
+		//console.log("Setting::shouldComponentUpdate - ", nextProps, nextState);
 		if(nextState.reset && nextProps.rpc_connection_status === 'open') {
-			//window.location.href = "/";
+			window.location.href = "/";
 			this.setState({reset: false});
-			willTransitionTo(nextProps, nextState, (result, e) => {
+			/*willTransitionTo(nextProps, nextState, (result, e) => {
 				if(result === 'synced') {
 					//_This.setState({synced: true});
 					HelpActions.setSync(true);
 				}
-			});
+			});*/
 			return false;
 		}
 		return true;
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
-		console.log("Setting::componentWillReceiveProps - ", nextProps, nextState);
+		//console.log("Setting::componentWillReceiveProps - ", nextProps, nextState);
 		
 	}
 
@@ -67,10 +101,7 @@ class Setting extends Component {
 		console.log("Setting::handleSetting - ", event, value);
 		// alert(value);
 		// HelpActions.change({status: false, beSynced: false});
-		HelpActions.change({settings: {
-			DEFAULT_WS_NODE: value,
-			WS_NODE_LIST: this.state.listNode
-		}});
+		HelpActions.node({currentNode: value});
 
 		Apis.reset(value, true);
 
@@ -80,19 +111,66 @@ class Setting extends Component {
 		});
 	}
 
+	onChangeSearch = (value) => {
+		if(!this.props.searchAccounts.get(value)) {
+			AccountActions.accountSearch(value);
+
+			let account = this.props.searchAccounts.findEntry((name) => {
+	            return name === value;
+	        });
+
+	        console.log("----------------Main::onChangeSearch - search ", account);
+		}
+
+		this.setState({searchContent: value, search: false});
+	}
+
+	onRequestSearch = () => {
+		console.log('onRequestSearch', this.state.searchContent);
+
+		let {type, content} = this._searchConent();
+		//this.context.router.push(`${type}/${content}`);
+
+		this.setState({search: true});
+	}
+
+	_searchConent() {
+
+		let content = this.state.searchContent;
+		let type = null;
+
+		if(utils.is_object_id(content)) {
+			type = 'object';
+		} else if(Number(content)) {
+			type = 'block';
+			content = parseInt(content, 10);
+		} else {
+			type = 'account'; //content = content;
+		}
+		
+		return {type, content};
+	}
+
 	render() {
 		let {synced, rpc_connection_status} = this.props;
 		let {valueNode, listNode} = this.state;
-		console.log("Setting::render - ", valueNode, listNode);
+		//console.log("Setting::render - ", valueNode, listNode);
 		//alert(synced);
 
 		let menuItemList = listNode.length? listNode.map((node, key) => {
-					console.log("Setting::render - ", node, key);
+					//console.log("Setting::render - ", node, key);
 					return <MenuItem key={key} primaryText={node.location} value={node.url} />
 				}) : null;
 
+
 		return (
 			<div>
+			<SearchBar 
+					dataSource={this.state.dataSource}
+					onChange={this.onChangeSearch}
+					onRequestSearch={this.onRequestSearch}
+					style={styles.search}
+				/>
 			{ rpc_connection_status==='open' ? <span className="txtlabel success">connected</span>
 				: <span className="txtlabel warning">{rpc_connection_status}</span> }
 			{ synced ? <span className="txtlabel success">, synced: {valueNode}</span>

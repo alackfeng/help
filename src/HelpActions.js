@@ -14,6 +14,11 @@ class HelpActions {
   	return item;
   }
 
+  node(node) {
+  	console.log('=========HelpActions::change - node - ', node);
+  	return node;
+  }
+
 }
 
 export default HelpActions = alt.createActions(HelpActions);

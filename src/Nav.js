@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ChainTypes from './ChainTypes';
 import BindToChainState from './BindToChainState';
 
+import IntlFormat from "./lib/Intl";
+
 /*
 const styles = {
 	block: {
@@ -11,6 +13,8 @@ const styles = {
 	}
 };
 */
+
+console.error(IntlFormat);
 
 class Nav extends Component {
 
@@ -71,9 +75,13 @@ class Nav extends Component {
 
 		let {block_number, block_time} = this._getBlock();
 
+		//let welcome = IntlFormat.get("languages", "en", {locale: "cn"});
+		let welcome = IntlFormat.get("welcome", "Welcome");
+
 		return (
 			<div>
-			Welcome Help OS, {block_number} Height -: {block_time}
+			{welcome}, {block_number} Height -: {block_time}
+
 			</div>
 		);
 	}

@@ -7,6 +7,7 @@
     "alt-container": "^1.1.1",
     "fidchainjs": "git+http://github.com/alackfeng/fidchainjs.git",
     "immutable": "^3.8.2",
+    "intl-messageformat": "^2.2.0",
     "lodash": "^3.10.1",
     "material-ui": "^0.19.4",
     "numeral": "^2.0.6",
