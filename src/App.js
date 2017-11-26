@@ -5,9 +5,9 @@ import './App.css';
 
 
 import willTransitionTo from './routerTransition';
-import Header from "./Header";
-import Main from "./Main";
-import HelpActions from "./HelpActions";
+import Header from "container/Header";
+import Main from "container/Main";
+import HelpActions from "stores/HelpActions";
 
 let _This = null;
 class App extends Component {

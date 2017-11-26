@@ -9,12 +9,12 @@ import {
 
 
 import App from "./App";
-import Blocks from "./Blocks";
-import Accounts from "./Accounts";
-import BlockContainer from "./BlockContainer";
-import AccountContainer from "./AccountContainer";
-import ChainContainer from "./ChainContainer";
-import MainContainer from "./MainContainer";
+import Blocks from "container/Blocks";
+import Accounts from "container/Accounts";
+import BlockContainer from "container/BlockContainer";
+import AccountContainer from "container/AccountContainer";
+import ChainContainer from "container/ChainContainer";
+import MainContainer from "container/MainContainer";
 
 const route = () => (
 	<Router>

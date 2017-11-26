@@ -1,6 +1,6 @@
-import { Manager } from 'fidchainjs-ws';
-import { ChainStore } from 'fidchainjs/es';
-import HelpStore from "./HelpStore";
+import { Manager } from 'assetfunjs-ws';
+import { ChainStore } from 'assetfunjs/es';
+import HelpStore from "stores/HelpStore";
 
 
 ChainStore.setDispatchFrequency(15);

@@ -1,7 +1,7 @@
 import IntlMessageFormat from 'intl-messageformat';
 
-import zh from './locale/zh';
-import en from './locale/en';
+import zh from "./locale/zh";
+import en from "./locale/en";
 
 let MESSAGES 	= { en, zh };
 let LOCALE 		= 'en';
