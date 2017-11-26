@@ -12,6 +12,8 @@ import BindToChainState from 'lib/BindToChainState';
 //import JSONTree from 'react-json-tree';
 
 import BaseFormat from "./BaseFormat";
+import Toggle from 'material-ui/Toggle';
+
 
 const theme = {
   scheme: 'monokai',
@@ -33,6 +35,14 @@ const theme = {
   base0E: '#ae81ff',
   base0F: '#cc6633'
 };
+
+const styles = {
+  propTitle: {
+    display: 'inline-block',
+  },
+};
+
+
 
 class TransactionList extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -77,6 +87,10 @@ class Block extends BaseComponent {
   constructor(props) {
     super(props);
     this._bind('_previousBlock', '_nextBlock');
+
+    this.state = {
+      showDev: false
+    };
   }
 
   shouldComponentUpdate(nextProps) {
@@ -121,6 +135,13 @@ class Block extends BaseComponent {
     this._getBlock(this.props.height);
   }
 
+  handleShowDev = (event, toggled) => {
+    console.log("----------Block::handleShowDev - ", event.target.name, toggled);
+    this.setState({
+      [event.target.name]: toggled,
+    });
+  };
+
   render() {
     let { blocks } = this.props;
     let height = parseInt(this.props.height, 10);
@@ -129,7 +150,16 @@ class Block extends BaseComponent {
 
     return (
       <div style={{ textAlign: 'center' }}>
-        <h4 className="text-center">BLOCK: #{height}</h4>
+        <span style={styles.propTitle}>
+          <h4 className="text-center">BLOCK: #{height}</h4>
+          <Toggle
+            name="showDev"
+            label="Develop Style"
+            onToggle={this.handleShowDev}
+            defaultToggled={this.state.showDev}
+          />
+        </span>
+        
         {/*<JSONTree data={block} theme={theme} invertTheme={false} />*/}
         {/*JSON.stringify(block) */}
         <div>{block?<BaseFormat base={block} />:"Hello World"}</div>

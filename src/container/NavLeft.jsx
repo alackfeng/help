@@ -51,9 +51,9 @@ class NavLeft extends Component {
 
 				<ToolbarGroup>
 					<IconMenu
-						iconButtonElement={<IconButton touch={true}><NavigationMenu /></IconButton>}
-						anchorOrigin={{horizontal: 'top', vertical: 'middle'}}
-						targetOrigin={{horizontal: 'top', vertical: 'left'}}
+						iconButtonElement={<IconButton touch={true}><NavigationMenu /></IconButton>}er
+						anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
+						targetOrigin={{horizontal: 'middle', vertical: 'top'}}
 						onChange={this.handleChange}
 						value={this.state.value}
 						onClick={this.handleSelectMenu}
