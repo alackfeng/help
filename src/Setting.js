@@ -68,7 +68,7 @@ class Setting extends Component {
 			valueNode: settings.currentNode,
 			listNode: settings.listNode,
 			reset: false,
-			dataSource: [props.searchAccounts, "helloworld","how are you", "fine", "feng", "block", "transaction", "123"],
+			dataSource: [],
 			searchContent: null,
 			search: false
 		}

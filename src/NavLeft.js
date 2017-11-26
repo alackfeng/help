@@ -61,7 +61,7 @@ class NavLeft extends Component {
 					>
 						<MenuItem value={1} primaryText="Home" containerElement={<Link to="/" />} />
 						<MenuItem value={2} primaryText="Blocks" containerElement={<Link to="/blocks" />} />
-						<MenuItem value={3} primaryText="Accounts" containerElement={<Link to="/blocks" />} />
+						<MenuItem value={3} primaryText="Accounts" containerElement={<Link to="/accounts" />} />
 						<MenuItem value={4} primaryText="Subjects" containerElement={<Link to="/blocks" />} />
 						<Link to="/blocks" />
 					</IconMenu>
