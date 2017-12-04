@@ -14,6 +14,7 @@ const settingsAPIs = {
         {url: "ws://39.108.173.85:11011", location: "AFT-node2-online-85"},
         {url: "ws://119.23.40.206:11011", location: "AFT-node3-206"},
         {url: "ws://123.56.18.119:21014", location: "AFT-node4-119"},
+        {url: "ws://112.74.166.82:11011", location: "AFT-Test-82"},
     ],
 };
 
